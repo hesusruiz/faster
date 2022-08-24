@@ -21,6 +21,7 @@ pagedir: /pages
 staticAssets:
   source: front/src/public
   target: docs
+subdomainprefix: /faster
 
 # Configuration specific to the development server process
 # In addition to serving local content, the server can forward some requests from the frontend to other

@@ -50,6 +50,11 @@ function T(key) {
 window.T = T;
 
 // front/src/app.js
+var parsedUrl = new URL(import.meta.url);
+var fullPath = parsedUrl.pathname;
+console.log(fullPath);
+var basePath = fullPath.replace("/app.js", "");
+console.log(basePath);
 var pageModules = {
   "AskUserToStoreQR": "/pages/AskUserToStoreQR.js",
   "AuthInit": "/pages/AuthInit.js",
