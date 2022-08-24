@@ -172,7 +172,7 @@ window.addEventListener("popstate", async function (event) {
 async function getAndUpdateVersion() {
     // @ts-ignore
     // let version = import.meta.env.VITE_APP_VERSION
-    let version = "1.1.0"
+    let version = "1.1.1"
 
     // Store the version in global Window object and in local storage
     // @ts-ignore

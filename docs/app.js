@@ -138,7 +138,7 @@ window.addEventListener("popstate", async function(event) {
   await processPageEntered(pageName, pageData, true);
 });
 async function getAndUpdateVersion() {
-  let version = "1.1.0";
+  let version = "1.1.1";
   window.appVersion = version;
   window.localStorage.setItem("VERSION", version);
   console.log("Version:", version);
