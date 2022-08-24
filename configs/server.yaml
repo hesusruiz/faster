@@ -1,0 +1,16 @@
+server:
+  listenAddress: ":8000"
+  staticDir: "www/public"
+  templateDir: "templates"
+
+store:
+  driverName: "sqlite3"
+  dataSourceName: "file:webauthn.sqlite?mode=rwc&cache=shared&_fk=1"
+
+webauthn:
+  RPDisplayName: "Gaia-X AISBL"
+  RPID: "localhost"
+  RPOrigin: "http://localhost:3000"
+  AuthenticatorAttachment: "platform"
+  UserVerification: "required"
+
