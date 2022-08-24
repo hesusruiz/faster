@@ -1,6 +1,6 @@
 {
-    "name": "EU COVID Credentials",
-    "short_name": "VerificaCOVID",
+    "name": "Privacy Wallet",
+    "short_name": "PrivacyWallet",
     "icons": [
         {
             "src": "./icon-192.png",

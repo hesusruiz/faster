@@ -1,6 +1,9 @@
 project_name = fasterback
 image_name = fasterback:latest
 
+build:
+	go run devserver/devserver.go build
+
 runback:
 	go run back/back.go
 
@@ -23,7 +26,7 @@ up:
 	make up-silent
 	make shell
 
-build:
+builddocker:
 	docker build -t $(image_name) .
 
 build-no-cache:

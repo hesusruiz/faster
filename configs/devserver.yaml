@@ -1,7 +1,7 @@
 # The directory with the source files for the PWA
 sourcedir: front/src
 # The distribution files after building the app
-targetdir: front/www
+targetdir: docs
 # If cleantarget is true, erase the 'targetdir' before building
 cleantarget: false
 # The individual HTML files composing the application
@@ -20,7 +20,7 @@ pagedir: /pages
 # This means that static assets can be located anywhere in the project directory
 staticAssets:
   source: front/src/public
-  target: front/www
+  target: docs
 
 # Configuration specific to the development server process
 # In addition to serving local content, the server can forward some requests from the frontend to other
