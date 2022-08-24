@@ -16,6 +16,9 @@ import { render, html } from 'uhtml';
 // Translation support
 import './i18n/tr.js'
 
+// Prepare for lazy-loading the pages
+// @ts-ignore
+const pageModules = PUT_PAGEMAP_HERE
 
 // get the base path of the application in runtime
 var parsedUrl  = new URL(import.meta.url)
@@ -25,12 +28,11 @@ console.log(fullPath)
 var basePath = fullPath.replace("/app.js", "")
 console.log(basePath)
 
-
-
-
-// Prepare for lazy-loading the pages
-// @ts-ignore
-const pageModules = PUT_PAGEMAP_HERE
+if (basePath.length > 1) {
+    for (const path in pageModules) {
+        pageModules[path] = basePath + pageModules[path]
+    }
+}
 
 // *****************************************************
 // This is a micro-router with just-enough functionality

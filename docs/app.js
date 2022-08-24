@@ -50,11 +50,6 @@ function T(key) {
 window.T = T;
 
 // front/src/app.js
-var parsedUrl = new URL(import.meta.url);
-var fullPath = parsedUrl.pathname;
-console.log(fullPath);
-var basePath = fullPath.replace("/app.js", "");
-console.log(basePath);
 var pageModules = {
   "AskUserToStoreQR": "/pages/AskUserToStoreQR.js",
   "AuthInit": "/pages/AuthInit.js",
@@ -74,6 +69,16 @@ var pageModules = {
   "SelectLanguage": "/pages/SelectLanguage.js",
   "TermsOfUse": "/pages/TermsOfUse.js"
 };
+var parsedUrl = new URL(import.meta.url);
+var fullPath = parsedUrl.pathname;
+console.log(fullPath);
+var basePath = fullPath.replace("/app.js", "");
+console.log(basePath);
+if (basePath.length > 1) {
+  for (const path in pageModules) {
+    pageModules[path] = basePath + pageModules[path];
+  }
+}
 var homePage = window.homePage;
 if (!homePage) {
   throw "No homePage was set.";
