@@ -7,7 +7,6 @@ window.MHR.register("AuthInit", class AuthInit extends window.MHR.AbstractPage {
 
     constructor(id) {
         super(id)
-
     }
 
     async enter(pageData) {
@@ -26,10 +25,18 @@ window.MHR.register("AuthInit", class AuthInit extends window.MHR.AbstractPage {
 
         // check whether current browser supports WebAuthn
         if (!window.PublicKeyCredential) {
-            this.render(window.MHR.ErrorPanel("Error", "This browser does not support WebAuth"))
+            this.render(window.MHR.ErrorPanel("Error", "This browser does not support WebAuthn"))
             return
         }
 
+/*         // We require platform authenticator (integrated with the device)
+        let available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
+        if (!available) {
+            console.log("WebAuthn supported, Platform Authenticator *not* supported.");
+            this.render(window.MHR.ErrorPanel("Error", "This browser does not support WebAuthn Platform Authenticator"))
+            return      
+        }
+ */
         let theHtml = html`
 <div class="w3-container w3-padding-48">
     <div class="w3-card-4 w3-half-centered">

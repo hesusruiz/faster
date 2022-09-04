@@ -10,9 +10,9 @@ import (
 
 	"github.com/duo-labs/webauthn/protocol"
 	"github.com/duo-labs/webauthn/webauthn"
-	"github.com/spf13/viper"
 
 	"github.com/hesusruiz/faster/back/operations"
+	"github.com/hesusruiz/faster/internal/gyaml"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
@@ -28,14 +28,14 @@ type WebAuthnHandler struct {
 	SessionStore *session.Store
 }
 
-func NewWebAuthnHandler(f *fiber.App, o *operations.Manager, cfg *viper.Viper) *WebAuthnHandler {
+func NewWebAuthnHandler(f *fiber.App, o *operations.Manager, cfg *gyaml.GYAML) *WebAuthnHandler {
 	var err error
 
-	rpDisplayName := "Gaia-X AISBL"
-	rpID := "localhost"
-	rpOrigin := "http://localhost:3000"
-	authenticatorAttachment := protocol.AuthenticatorAttachment("platform")
-	userVerification := protocol.UserVerificationRequirement("required")
+	rpDisplayName := cfg.DString("webauthn.RPDisplayName")
+	rpID := cfg.DString("webauthn.RPID")
+	rpOrigin := cfg.DString("webauthn.RPOrigin")
+	authenticatorAttachment := protocol.AuthenticatorAttachment(cfg.DString("webauthn.AuthenticatorAttachment"))
+	userVerification := protocol.UserVerificationRequirement(cfg.DString("webauthn.UserVerification"))
 
 	// Create the server object
 	server := new(WebAuthnHandler)

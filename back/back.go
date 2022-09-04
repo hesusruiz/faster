@@ -16,7 +16,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/rs/zerolog"
 	zlog "github.com/rs/zerolog/log"
-	"github.com/spf13/viper"
+
+	"github.com/hesusruiz/faster/internal/gyaml"
 )
 
 var (
@@ -41,7 +42,7 @@ func main() {
 	flag.Parse()
 
 	// Read configuration file
-	cfg := readConfig()
+	cfg := readConfiguration()
 
 	// Define the configuration for Fiber
 	fiberCfg := fiber.Config{
@@ -63,7 +64,7 @@ func main() {
 	}
 
 	// Backend Operations
-	app.Operations = operations.NewManager(cfg.GetString("store.driverName"), cfg.GetString("store.dataSourceName"))
+	app.Operations = operations.NewManager(cfg.DString("store.driverName"), cfg.DString("store.dataSourceName"))
 
 	// Middleware
 	app.Use(recover.New(recover.Config{EnableStackTrace: true}))
@@ -81,8 +82,7 @@ func main() {
 	// v1.Post("/users", handlers.UserCreate)
 
 	// WebAuthn
-	waConfig := cfg.Sub("webauthn")
-	app.WebAuthn = handlers.NewWebAuthnHandler(app.App, app.Operations, waConfig)
+	app.WebAuthn = handlers.NewWebAuthnHandler(app.App, app.Operations, cfg)
 
 	// Create an /api endpoint
 	v1 := app.Group("/api")
@@ -91,40 +91,20 @@ func main() {
 	v1.Get("/credentials", app.WebAuthn.ListCredentials)
 
 	// Setup static files
-	app.Static("/", cfg.GetString("server.staticDir"))
+	app.Static("/", cfg.DString("server.staticDir"))
 
 	// Listen on port 3000
 	log.Fatal(app.Listen(*port)) // go run app.go -port=:3000
 }
 
-func readConfig() *viper.Viper {
-	// The name of the config file
-	var configFileName = "server.yaml"
+func readConfiguration() *gyaml.GYAML {
+	var cfg *gyaml.GYAML
+	var err error
 
-	// Prepare to read the configuration file
-	// We accept config files in the current directory or in HOME/.config/issuer
-	cfg := viper.New()
-	cfg.SetConfigName(configFileName)
-	cfg.SetConfigType("yaml")
-	cfg.AddConfigPath(".")
-	cfg.AddConfigPath("./configs")
-	cfg.AddConfigPath("$HOME/.config/webauthn")
-
-	// Set some defaults
-	cfg.SetDefault("server.staticDir", "www/public")
-	cfg.SetDefault("server.listenAddress", ":3000")
-	cfg.SetDefault("server.templateDir", "templates")
-
-	// Read the configuration values
-	err := cfg.ReadInConfig()
+	cfg, err = gyaml.ParseYamlFile("configs/server.yaml")
 	if err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			// Config file not found; ignore error if desired
-			zlog.Warn().Str("config", configFileName).Msg("Config file not found")
-		} else {
-			panic(fmt.Errorf("Fatal error config file: %w \n", err))
-		}
+		fmt.Printf("Config file not found\n")
+		panic(err)
 	}
-
 	return cfg
 }
