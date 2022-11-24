@@ -24,7 +24,7 @@ window.MHR.register("AuthInit", class AuthInit extends window.MHR.AbstractPage {
       }
     }
     if (!window.PublicKeyCredential) {
-      this.render(window.MHR.ErrorPanel("Error", "This browser does not support WebAuth"));
+      this.render(window.MHR.ErrorPanel("Error", "This browser does not support WebAuthn"));
       return;
     }
     let theHtml = html`

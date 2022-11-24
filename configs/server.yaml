@@ -10,7 +10,7 @@ store:
 webauthn:
   RPDisplayName: "Gaia-X AISBL"
   RPID: "localhost"
-  RPOrigin: "http://localhost:3000"
-  AuthenticatorAttachment: "platform"
+  RPOrigin: "http://localhost:8000"
+  AuthenticatorAttachment: "cross-platform"
   UserVerification: "required"
 

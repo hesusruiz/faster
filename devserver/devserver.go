@@ -459,10 +459,8 @@ func readConfiguration() *gyaml.GYAML {
 
 	cfg, err = gyaml.ParseYamlFile("configs/devserver.yaml")
 	if err != nil {
-		fmt.Printf("Config file not found, using defaults\n")
+		fmt.Printf("Config file not found\n")
 		panic(err)
-		// fmt.Println(string(cfgDefaults))
-		// cfg, err = gyaml.ParseYamlBytes(cfgDefaults)
 	}
 	return cfg
 }
