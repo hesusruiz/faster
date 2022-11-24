@@ -27,12 +27,12 @@ subdomainprefix: /faster
 # In addition to serving local content, the server can forward some requests from the frontend to other
 # servers, helping development in clomplex projects
 devserver:
-  listenAddress: ":3000"
+  listenAddress: ":3500"
   autobuild: true
   # Information to proxy some requests to other server
   proxy:
     - route: /webauthn/*
-      target: http://localhost:8000
+      target: http://localhost:3000
 
 # The server can also use server-generated content using Go templates, to complement the PWA in some cases
 templates:

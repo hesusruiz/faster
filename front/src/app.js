@@ -16,6 +16,10 @@ import { render, html } from 'uhtml';
 // Translation support
 import './i18n/tr.js'
 
+// The logo in the header
+// @ts-ignore
+import logo_img from './img/logo.png'
+
 // Prepare for lazy-loading the pages
 // @ts-ignore
 const pageModules = PUT_PAGEMAP_HERE
@@ -345,7 +349,7 @@ function HeaderBar(menu = false) {
     var fullHB = html`
 <div class="w3-bar w3-card w3-large color-primary">
     <a class="w3-bar-item w3-btn" onclick=${() => resetAndGoHome()}>
-        <img style="height:1.5em; margin-bottom:5px" src="/evidencesmall.png" alt="EvidenceLedger logo">
+        <img style="height:1.5em; margin-bottom:5px" src=${logo_img} alt="EvidenceLedger logo">
     </a>
     <div class="w3-bar-item">Privacy Wallet</div>
     <a class="w3-bar-item w3-btn w3-right" onclick=${() => HeaderBar(flag)}>☰</a>

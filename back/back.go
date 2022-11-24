@@ -1,12 +1,16 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"html/template"
 	"os"
+	"path/filepath"
 
 	"github.com/hesusruiz/faster/back/handlers"
 	"github.com/hesusruiz/faster/back/operations"
+	"github.com/hesusruiz/faster/internal/gyaml"
 
 	"flag"
 	"log"
@@ -16,7 +20,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/rs/zerolog"
 	zlog "github.com/rs/zerolog/log"
-	"github.com/spf13/viper"
 )
 
 var (
@@ -28,6 +31,7 @@ type Server struct {
 	*fiber.App
 	WebAuthn   *handlers.WebAuthnHandler
 	Operations *operations.Manager
+	t          *template.Template
 }
 
 func main() {
@@ -41,7 +45,8 @@ func main() {
 	flag.Parse()
 
 	// Read configuration file
-	cfg := readConfig()
+	// cfg := readConfig()
+	cfg := readConfiguration()
 
 	// Define the configuration for Fiber
 	fiberCfg := fiber.Config{
@@ -62,8 +67,14 @@ func main() {
 		App: fiber.New(fiberCfg),
 	}
 
+	// Initialise the template system
+	templateDir := cfg.DString("server.templateDir")
+	app.t = template.Must(template.ParseGlob(filepath.Join(templateDir, "layouts/*")))
+	app.t = template.Must(app.t.ParseGlob(filepath.Join(templateDir, "partials/*")))
+	app.t = template.Must(app.t.ParseGlob(filepath.Join(templateDir, "pages/*")))
+
 	// Backend Operations
-	app.Operations = operations.NewManager(cfg.GetString("store.driverName"), cfg.GetString("store.dataSourceName"))
+	app.Operations = operations.NewManager(cfg.DString("store.driverName"), cfg.DString("store.dataSourceName"))
 
 	// Middleware
 	app.Use(recover.New(recover.Config{EnableStackTrace: true}))
@@ -81,50 +92,41 @@ func main() {
 	// v1.Post("/users", handlers.UserCreate)
 
 	// WebAuthn
-	waConfig := cfg.Sub("webauthn")
-	app.WebAuthn = handlers.NewWebAuthnHandler(app.App, app.Operations, waConfig)
+	app.WebAuthn = handlers.NewWebAuthnHandler(app.App, app.Operations, cfg)
 
 	// Create an /api endpoint
-	v1 := app.Group("/api")
+	v1 := app.Group("/admin")
 
 	// Bind handlers
-	v1.Get("/credentials", app.WebAuthn.ListCredentials)
+	v1.Get("/start", app.HandleAdmin)
 
 	// Setup static files
-	app.Static("/", cfg.GetString("server.staticDir"))
+	app.Static("/", cfg.DString("server.staticDir"))
 
 	// Listen on port 3000
-	log.Fatal(app.Listen(*port)) // go run app.go -port=:3000
+	log.Fatal(app.Listen(cfg.DString("server.listenAddress"))) // go run app.go -port=:3000
 }
 
-func readConfig() *viper.Viper {
-	// The name of the config file
-	var configFileName = "server.yaml"
+func (s *Server) HandleAdmin(c *fiber.Ctx) error {
 
-	// Prepare to read the configuration file
-	// We accept config files in the current directory or in HOME/.config/issuer
-	cfg := viper.New()
-	cfg.SetConfigName(configFileName)
-	cfg.SetConfigType("yaml")
-	cfg.AddConfigPath(".")
-	cfg.AddConfigPath("./configs")
-	cfg.AddConfigPath("$HOME/.config/webauthn")
-
-	// Set some defaults
-	cfg.SetDefault("server.staticDir", "www/public")
-	cfg.SetDefault("server.listenAddress", ":3000")
-	cfg.SetDefault("server.templateDir", "templates")
-
-	// Read the configuration values
-	err := cfg.ReadInConfig()
+	var out bytes.Buffer
+	err := s.t.Execute(&out, "")
 	if err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			// Config file not found; ignore error if desired
-			zlog.Warn().Str("config", configFileName).Msg("Config file not found")
-		} else {
-			panic(fmt.Errorf("Fatal error config file: %w \n", err))
-		}
+		return err
 	}
+	return c.SendString(out.String())
+}
 
+func readConfiguration() *gyaml.GYAML {
+	var cfg *gyaml.GYAML
+	var err error
+
+	cfg, err = gyaml.ParseYamlFile("configs/server.yaml")
+	if err != nil {
+		fmt.Printf("Config file not found, using defaults\n")
+		panic(err)
+		// fmt.Println(string(cfgDefaults))
+		// cfg, err = gyaml.ParseYamlBytes(cfgDefaults)
+	}
 	return cfg
 }

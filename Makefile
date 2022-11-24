@@ -1,6 +1,11 @@
 project_name = fasterback
 image_name = fasterback:latest
 
+build_go:
+	go build -o ./bin/devserver devserver/devserver.go
+	go build -o ./bin/back back/back.go
+
+
 build:
 	go run devserver/devserver.go build
 

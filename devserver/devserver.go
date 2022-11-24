@@ -204,7 +204,7 @@ func DevServer(cfg *gyaml.GYAML) {
 	// app.Static("/", cfg.DString("targetdir"))
 
 	// Listen on configured port
-	log.Fatal(app.Listen(*port)) // go run app.go -port=:3000
+	log.Fatal(app.Listen(cfg.DString("devserver.listenAddress"))) // go run app.go -port=:3000
 }
 
 // proxyHandler is a general proxy forwarder with no logic to modify

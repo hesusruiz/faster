@@ -1,7 +1,7 @@
 server:
-  listenAddress: ":8000"
-  staticDir: "www/public"
-  templateDir: "templates"
+  listenAddress: ":3000"
+  staticDir: "docs"
+  templateDir: "back/templates"
 
 store:
   driverName: "sqlite3"
