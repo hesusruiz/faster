@@ -22,19 +22,20 @@ import logo_img from './img/logo.png'
 
 // Prepare for lazy-loading the pages
 // @ts-ignore
-const pageModules = PUT_PAGEMAP_HERE
+const pageModulesMap = window.pageModules
 
 // get the base path of the application in runtime
 var parsedUrl  = new URL(import.meta.url)
-var fullPath = parsedUrl .pathname
+var fullPath = parsedUrl.pathname
 console.log(fullPath)
 
-var basePath = fullPath.replace("/app.js", "")
+var basePath = fullPath.substring(0, fullPath.lastIndexOf('/'))
+
 console.log(basePath)
 
 if (basePath.length > 1) {
-    for (const path in pageModules) {
-        pageModules[path] = basePath + pageModules[path]
+    for (const path in pageModulesMap) {
+        pageModulesMap[path] = basePath + pageModulesMap[path]
     }
 }
 
@@ -84,17 +85,17 @@ async function gotoPage(pageName, pageData) {
 
     // If pageName is not a registered page, go to the 404 error page
     // passing the target page as pageData
-    var pageFunction = pageModules[pageName]
+    var pageFunction = pageModulesMap[pageName]
     if (!pageFunction) {
         log.error("Target page does not exist: ", pageName);
         pageData = pageName
         pageName = name404
         // Make sure that the page is loaded
-        await import(pageModules[pageName])
+        await import(pageModulesMap[pageName])
     }
 
     // Load the page. This is a no-op if the module is already loaded.
-    await import(pageModules[pageName])
+    await import(pageModulesMap[pageName])
 
     // Create a new browser history state, to support the back button in the browser.
     window.history.pushState(
@@ -214,8 +215,9 @@ window.addEventListener('DOMContentLoaded', async (event) => {
     await goHome()
 
     // Load the pages of the application in parallel
-    for (const path in pageModules) {
-        import(pageModules[path])
+    for (const path in pageModulesMap) {
+        console.log("Dyn loading", pageModulesMap[path])
+        import(pageModulesMap[path])
     }
 
 });

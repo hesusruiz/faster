@@ -7,7 +7,7 @@ import {
 } from "../chunks/chunk-FVTRWWP3.js";
 import {
   html
-} from "../chunks/chunk-K33A5WJ7.js";
+} from "../chunks/chunk-65N62L2T.js";
 import "../chunks/chunk-MRZMPRY2.js";
 
 // front/src/pages/ScanQrPage.js
@@ -34,7 +34,7 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
     super(id);
     if (!("BarcodeDetector" in window)) {
       console.log("Barcode Detector is not supported by this browser.");
-      this.zxingPromise = import("../chunks/esm-ZDVCVBME.js");
+      this.zxingPromise = import("../chunks/esm-WYNQK35S.js");
     } else {
       console.log("Barcode Detector supported!");
       this.nativeBarcodeDetector = new BarcodeDetector({ formats: ["qr_code"] });

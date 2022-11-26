@@ -360,7 +360,7 @@ var createPath = (node) => {
   }
   return path;
 };
-var prefix = "is\xB5";
+var prefix = "isµ";
 var cache = new WeakMapSet();
 var textOnly = /^(?:textarea|script|style|title|plaintext|xmp)$/;
 var createCache = () => ({

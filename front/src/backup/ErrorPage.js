@@ -1,23 +1,24 @@
-import {
-  html
-} from "../chunks/chunk-K33A5WJ7.js";
-import "../chunks/chunk-MRZMPRY2.js";
+import { html } from 'uhtml'
 
-// front/src/pages/ErrorPage.js
 window.MHR.register("ErrorPage", class ErrorPage extends window.MHR.AbstractPage {
-  constructor(id) {
-    super(id);
-  }
-  enter(pageData) {
-    let title = T("Error");
-    if (pageData && pageData.title) {
-      title = T(pageData.title);
+
+    constructor(id) {
+        super(id)
     }
-    let msg = T("An error has happened.");
-    if (pageData && pageData.msg) {
-      msg = T(pageData.msg);
-    }
-    let theHtml = html`
+
+    enter(pageData) {
+
+        let title = T("Error")
+        if (pageData && pageData.title) {
+            title = T(pageData.title)
+        }
+
+        let msg = T("An error has happened.")
+        if (pageData && pageData.msg) {
+            msg = T(pageData.msg)
+        }
+
+        let theHtml = html`
         <div class="w3-container w3-padding-64">
             <div class="w3-card-4 w3-center">
         
@@ -31,12 +32,12 @@ window.MHR.register("ErrorPage", class ErrorPage extends window.MHR.AbstractPage
                 </div>
                 
                 <div class="w3-container w3-center w3-padding">
-                    <btn-primary onclick=${() => window.location.reload()}>${T("Accept")}</btn-primary>        
+                    <btn-primary onclick=${()=>window.location.reload()}>${T("Accept")}</btn-primary>        
                 </div>
 
             </div>
         </div>
-        `;
-    this.render(theHtml);
-  }
-});
+        `
+        this.render(theHtml)
+    }
+})

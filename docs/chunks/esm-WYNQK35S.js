@@ -6091,7 +6091,7 @@ var Code39Reader = function(_super) {
             } else if (next === "W") {
               decodedChar = "`";
             } else if (next === "X" || next === "Y" || next === "Z") {
-              decodedChar = "\x7F";
+              decodedChar = "";
             } else {
               throw new FormatException_default();
             }
@@ -6687,7 +6687,7 @@ var UPCEANExtension5Support = function() {
     var currency;
     switch (raw.charAt(0)) {
       case "0":
-        currency = "\xA3";
+        currency = "£";
         break;
       case "5":
         currency = "$";
@@ -25659,7 +25659,7 @@ function static_CHAR_MAP(CHAR_MAP2) {
     "`",
     "|",
     "~",
-    "\x7F"
+    ""
   ];
   for (var i = 0; i < mixedTable.length; i++) {
     CHAR_MAP2[MODE_MIXED][StringUtils_default.getCharCode(mixedTable[i])] = i;

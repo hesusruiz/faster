@@ -3,7 +3,7 @@ sourcedir: front/src
 # The distribution files after building the app
 targetdir: docs
 # If cleantarget is true, erase the 'targetdir' before building
-cleantarget: false
+cleantarget: true
 # The individual HTML files composing the application
 # Name is relative to the 'sourcedir'
 htmlfiles:
@@ -21,18 +21,22 @@ pagedir: /pages
 staticAssets:
   source: front/src/public
   target: docs
+# Set to true if you want entrypoint names to include a hash
+# This includes the pages names
+hashEntrypointNames: false
+
 subdomainprefix: /faster
 
 # Configuration specific to the development server process
 # In addition to serving local content, the server can forward some requests from the frontend to other
-# servers, helping development in clomplex projects
+# servers, helping development in complex projects
 devserver:
   listenAddress: ":3500"
   autobuild: true
   # Information to proxy some requests to other server
-  proxy:
-    - route: /webauthn/*
-      target: http://localhost:3000
+  # proxy:
+  #   - route: /webauthn/*
+  #     target: http://localhost:3000
 
 # The server can also use server-generated content using Go templates, to complement the PWA in some cases
 templates:

@@ -3,7 +3,7 @@ import {
 } from "../chunks/chunk-LMU2QNUW.js";
 import {
   html
-} from "../chunks/chunk-K33A5WJ7.js";
+} from "../chunks/chunk-65N62L2T.js";
 import "../chunks/chunk-MRZMPRY2.js";
 
 // front/src/pages/TermsOfUse.js

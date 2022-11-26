@@ -1,7 +1,7 @@
 import {
   legal_default
 } from "../chunks/chunk-LMU2QNUW.js";
-import "../chunks/chunk-K33A5WJ7.js";
+import "../chunks/chunk-65N62L2T.js";
 import "../chunks/chunk-MRZMPRY2.js";
 
 // front/src/pages/PrivacyPolicy.js

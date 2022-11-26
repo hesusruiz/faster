@@ -2,21 +2,19 @@ project_name = fasterback
 image_name = fasterback:latest
 
 build_go:
-	go build -o ./bin/devserver devserver/devserver.go
 	go build -o ./bin/back back/back.go
 
-
 build:
-	go run devserver/devserver.go build
+	go run faster.go build
+
+install:
+	go install faster.go
 
 runback:
 	go run back/back.go
 
 runfront:
-	go run devserver/devserver.go build serve
-
-run:
-	go run app.go
+	go run faster.go build serve
 
 cleandb:
 	rm ~/.siop2/webauthn.sqlite

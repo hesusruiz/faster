@@ -1,7 +1,7 @@
 import {
   log
 } from "../chunks/chunk-FVTRWWP3.js";
-import "../chunks/chunk-K33A5WJ7.js";
+import "../chunks/chunk-65N62L2T.js";
 import "../chunks/chunk-MRZMPRY2.js";
 
 // front/src/pages/LogsPage.js

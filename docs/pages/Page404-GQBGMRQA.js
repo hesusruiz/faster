@@ -1,6 +1,6 @@
 import {
   html
-} from "../chunks/chunk-K33A5WJ7.js";
+} from "../chunks/chunk-65N62L2T.js";
 import "../chunks/chunk-MRZMPRY2.js";
 
 // front/src/pages/Page404.js

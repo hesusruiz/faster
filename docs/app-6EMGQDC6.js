@@ -4,24 +4,24 @@ import {
 import {
   html,
   render
-} from "./chunks/chunk-K33A5WJ7.js";
+} from "./chunks/chunk-65N62L2T.js";
 import "./chunks/chunk-MRZMPRY2.js";
 
 // front/src/i18n/translations.js
 var translations = {
   "$intro01": {
     "en": "This application allows the verification of COVID certificates issued by EU Member States and also certificates issued by the UK Government with the same format as the EU Digital COVID Certificate",
-    "es": "Esta aplicaci\xF3n permite la verificaci\xF3n de certificados COVID emitidos por los Estados Miembro de la UE y tambi\xE9n los certificados emitidos por el Reino Unido con el mismo formato que el Certificado COVID Digital de la UE",
-    "ca": "Aquesta aplicaci\xF3 permet la verificaci\xF3 dels certificats COVID emesos pels Estats membres de la UE i tamb\xE9 els certificats emesos pel Regne Unit en el mateix format que el Certificat COVID digital de la UE",
-    "fr": "Cette application permet de v\xE9rifier les certificats COVID \xE9mis par les \xC9tats membres de l'UE, ainsi que les certificats \xE9mis par le gouvernement britannique sous le m\xEAme format que le certificat COVID num\xE9rique de l'UE.",
-    "de": "Diese Anwendung erm\xF6glicht die \xDCberpr\xFCfung von COVID-Zertifikaten, die von EU-Mitgliedstaaten ausgestellt wurden, sowie von Zertifikaten, die von der britischen Regierung ausgestellt wurden und dasselbe Format wie das digitale COVID-Zertifikat der EU haben.",
-    "it": "Questa applicazione consente di verificare i certificati COVID rilasciati dagli stati membri dell'UE nonch\xE9 i certificati rilasciati dal governo del Regno Unito con lo stesso formato del certificato digitale COVID UE"
+    "es": "Esta aplicación permite la verificación de certificados COVID emitidos por los Estados Miembro de la UE y también los certificados emitidos por el Reino Unido con el mismo formato que el Certificado COVID Digital de la UE",
+    "ca": "Aquesta aplicació permet la verificació dels certificats COVID emesos pels Estats membres de la UE i també els certificats emesos pel Regne Unit en el mateix format que el Certificat COVID digital de la UE",
+    "fr": "Cette application permet de vérifier les certificats COVID émis par les États membres de l'UE, ainsi que les certificats émis par le gouvernement britannique sous le même format que le certificat COVID numérique de l'UE.",
+    "de": "Diese Anwendung ermöglicht die Überprüfung von COVID-Zertifikaten, die von EU-Mitgliedstaaten ausgestellt wurden, sowie von Zertifikaten, die von der britischen Regierung ausgestellt wurden und dasselbe Format wie das digitale COVID-Zertifikat der EU haben.",
+    "it": "Questa applicazione consente di verificare i certificati COVID rilasciati dagli stati membri dell'UE nonché i certificati rilasciati dal governo del Regno Unito con lo stesso formato del certificato digitale COVID UE"
   },
   "EU Digital COVID Credential Verifier": {
     "es": "Verificador de Credenciales COVID",
     "ca": "Verificador de Credencials COVID",
-    "fr": "Outil de v\xE9rification num\xE9rique des justificatifs COVID de l'UE",
-    "de": "Digitale COVID-Anmeldeinformations\xFCberpr\xFCfung in der EU",
+    "fr": "Outil de vérification numérique des justificatifs COVID de l'UE",
+    "de": "Digitale COVID-Anmeldeinformationsüberprüfung in der EU",
     "it": "Strumento di verifica del certificato digitale COVID UE"
   }
 };
@@ -53,33 +53,15 @@ window.T = T;
 var logo_default = "data:image/png;base64,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";
 
 // front/src/app.js
-var pageModules = {
-  "AskUserToStoreQR": "/pages/AskUserToStoreQR.js",
-  "AuthInit": "/pages/AuthInit.js",
-  "DisplayHcert": "/pages/DisplayHcert.js",
-  "DisplayMyHcert": "/pages/DisplayMyHcert.js",
-  "DisplayNormalQR": "/pages/DisplayNormalQR.js",
-  "DisplayQR": "/pages/DisplayQR.js",
-  "ErrorPage": "/pages/ErrorPage.js",
-  "IntroPage": "/pages/IntroPage.js",
-  "LogsPage": "/pages/LogsPage.js",
-  "MicroWallet": "/pages/MicroWallet.js",
-  "Page404": "/pages/Page404.js",
-  "PrivacyPolicy": "/pages/PrivacyPolicy.js",
-  "SWNotify": "/pages/SWNotify.js",
-  "ScanQrPage": "/pages/ScanQrPage.js",
-  "SelectCamera": "/pages/SelectCamera.js",
-  "SelectLanguage": "/pages/SelectLanguage.js",
-  "TermsOfUse": "/pages/TermsOfUse.js"
-};
+var pageModulesMap = window.pageModules;
 var parsedUrl = new URL(import.meta.url);
 var fullPath = parsedUrl.pathname;
 console.log(fullPath);
-var basePath = fullPath.replace("/app.js", "");
+var basePath = fullPath.substring(0, fullPath.lastIndexOf("/"));
 console.log(basePath);
 if (basePath.length > 1) {
-  for (const path in pageModules) {
-    pageModules[path] = basePath + pageModules[path];
+  for (const path in pageModulesMap) {
+    pageModulesMap[path] = basePath + pageModulesMap[path];
   }
 }
 var homePage = window.homePage;
@@ -98,14 +80,14 @@ async function goHome() {
 }
 async function gotoPage(pageName, pageData) {
   console.log("Inside gotoPage:", pageName);
-  var pageFunction = pageModules[pageName];
+  var pageFunction = pageModulesMap[pageName];
   if (!pageFunction) {
     log.error("Target page does not exist: ", pageName);
     pageData = pageName;
     pageName = name404;
-    await import(pageModules[pageName]);
+    await import(pageModulesMap[pageName]);
   }
-  await import(pageModules[pageName]);
+  await import(pageModulesMap[pageName]);
   window.history.pushState(
     { pageName, pageData },
     `${pageName}`
@@ -161,8 +143,9 @@ window.addEventListener("DOMContentLoaded", async (event) => {
   console.log("DOMContentLoaded");
   getAndUpdateVersion();
   await goHome();
-  for (const path in pageModules) {
-    import(pageModules[path]);
+  for (const path in pageModulesMap) {
+    console.log("Dyn loading", pageModulesMap[path]);
+    import(pageModulesMap[path]);
   }
 });
 var INSTALL_SERVICE_WORKER = true;

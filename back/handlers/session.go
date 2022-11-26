@@ -4,9 +4,10 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 
-	log "github.com/duo-labs/webauthn.io/logger"
+	// log "github.com/duo-labs/webauthn.io/logger"
 	"github.com/duo-labs/webauthn/webauthn"
 	"github.com/gorilla/sessions"
 )
@@ -98,7 +99,8 @@ func (store *SessionStore) GetWebauthnSession(key string, r *http.Request) (weba
 func (store *SessionStore) Set(key string, value interface{}, r *http.Request, w http.ResponseWriter) error {
 	session, err := store.Get(r, WebauthnSession)
 	if err != nil {
-		log.Errorf("Error getting session %s", err)
+		log.Printf("Error getting session %s", err)
+		return err
 	}
 	session.Values[key] = value
 	session.Save(r, w)

@@ -15578,7 +15578,7 @@ var value_sets_default = {
         version: ""
       },
       AX: {
-        display: "\xC5land Islands",
+        display: "Åland Islands",
         lang: "en",
         active: true,
         system: "urn:iso:std:iso:3166",
@@ -15655,7 +15655,7 @@ var value_sets_default = {
         version: ""
       },
       BL: {
-        display: "Saint Barth\xE9lemy",
+        display: "Saint Barthélemy",
         lang: "en",
         active: true,
         system: "urn:iso:std:iso:3166",
@@ -15781,7 +15781,7 @@ var value_sets_default = {
         version: ""
       },
       CI: {
-        display: "C\xF4te d''Ivoire",
+        display: "Côte d''Ivoire",
         lang: "en",
         active: true,
         system: "urn:iso:std:iso:3166",
@@ -15844,7 +15844,7 @@ var value_sets_default = {
         version: ""
       },
       CW: {
-        display: "Cura\xE7ao",
+        display: "Curaçao",
         lang: "en",
         active: true,
         system: "urn:iso:std:iso:3166",
@@ -16789,7 +16789,7 @@ var value_sets_default = {
         version: ""
       },
       RE: {
-        display: "R\xE9union",
+        display: "Réunion",
         lang: "en",
         active: true,
         system: "urn:iso:std:iso:3166",
@@ -17257,7 +17257,7 @@ var value_sets_default = {
         validUntil: null
       },
       "1065": {
-        display: "Becton Dickinson, BD Veritor\u2122 System for Rapid Detection of SARS CoV 2",
+        display: "Becton Dickinson, BD Veritor™ System for Rapid Detection of SARS CoV 2",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -17361,7 +17361,7 @@ var value_sets_default = {
         validUntil: null
       },
       "1574": {
-        display: "Shenzhen Zhenrui Biotechnology Co., Ltd, Zhenrui \xAECOVID-19 Antigen Test Cassette",
+        display: "Shenzhen Zhenrui Biotechnology Co., Ltd, Zhenrui ®COVID-19 Antigen Test Cassette",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -17417,7 +17417,7 @@ var value_sets_default = {
         validUntil: null
       },
       "1190": {
-        display: "m\xF6Lab, m\xF6-screen Corona Antigen Test",
+        display: "möLab, mö-screen Corona Antigen Test",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -17537,7 +17537,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2290": {
-        display: "Rapid Pathogen Screening, Inc., LIAISON\xAE Quick Detect Covid Ag Assay",
+        display: "Rapid Pathogen Screening, Inc., LIAISON® Quick Detect Covid Ag Assay",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -17745,7 +17745,7 @@ var value_sets_default = {
         validUntil: null
       },
       "1800": {
-        display: "AVALUN SAS, Ksmart\xAE SARS-COV2 Antigen Rapid Test",
+        display: "AVALUN SAS, Ksmart® SARS-COV2 Antigen Rapid Test",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -17977,7 +17977,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2101": {
-        display: "AXIOM Gesellschaft f\xFCr Diagnostica und Biochemica mbH, COVID-19 Antigen Rapid Test Card",
+        display: "AXIOM Gesellschaft für Diagnostica und Biochemica mbH, COVID-19 Antigen Rapid Test Card",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18161,7 +18161,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2010": {
-        display: "Atlas Link Technology Co., Ltd., NOVA Test\xAE SARS-CoV-2 Antigen Rapid Test Kit (Colloidal Gold Immunochromatography)",
+        display: "Atlas Link Technology Co., Ltd., NOVA Test® SARS-CoV-2 Antigen Rapid Test Kit (Colloidal Gold Immunochromatography)",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18177,7 +18177,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2130": {
-        display: "Affimedix, Inc., TestNOW\xAE - COVID-19 Antigen Test",
+        display: "Affimedix, Inc., TestNOW® - COVID-19 Antigen Test",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18201,7 +18201,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2128": {
-        display: "Lumigenex (Suzhou) Co., Ltd, PocRoc\xAESARS-CoV-2 Antigen Rapid Test Kit (Colloidal Gold)",
+        display: "Lumigenex (Suzhou) Co., Ltd, PocRoc®SARS-CoV-2 Antigen Rapid Test Kit (Colloidal Gold)",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18249,7 +18249,7 @@ var value_sets_default = {
         validUntil: null
       },
       "1296": {
-        display: "Zhejiang Anji Saianfu Biotech Co., Ltd, Andlucky\u2122 COVID-19 Antigen Rapid Test",
+        display: "Zhejiang Anji Saianfu Biotech Co., Ltd, Andlucky™ COVID-19 Antigen Rapid Test",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18281,7 +18281,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2139": {
-        display: "HANGZHOU LYSUN BIOTECHNOLOGY CO., LTD., COVID-19 Antigen Rapid Test Device\uFF08Colloidal Gold\uFF09",
+        display: "HANGZHOU LYSUN BIOTECHNOLOGY CO., LTD., COVID-19 Antigen Rapid Test Device（Colloidal Gold）",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18401,7 +18401,7 @@ var value_sets_default = {
         validUntil: null
       },
       "1691": {
-        display: "Chil T\u0131bbi Malzeme Sanayi ve Ticaret Limited \u015Eirketi, CHIL COVID-19 Antigen Rapid Test (Nasopharyngeal / Oropharyngeal Swab-Casette)",
+        display: "Chil Tıbbi Malzeme Sanayi ve Ticaret Limited Şirketi, CHIL COVID-19 Antigen Rapid Test (Nasopharyngeal / Oropharyngeal Swab-Casette)",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18417,7 +18417,7 @@ var value_sets_default = {
         validUntil: null
       },
       "1960": {
-        display: "DiaSorin S.p.A, LIAISON\xAE SARS-CoV-2 Ag",
+        display: "DiaSorin S.p.A, LIAISON® SARS-CoV-2 Ag",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18425,7 +18425,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2273": {
-        display: "Dr\xE4ger Safety AG & Co. KGaA, Dr\xE4ger Antigen Test SARS-CoV-2",
+        display: "Dräger Safety AG & Co. KGaA, Dräger Antigen Test SARS-CoV-2",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18433,7 +18433,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2533": {
-        display: "Dynamiker Biotechnology\uFF08Tianjin) Co., Ltd., Dynamiker SARS-CoV-2 Ag Rapid Test",
+        display: "Dynamiker Biotechnology（Tianjin) Co., Ltd., Dynamiker SARS-CoV-2 Ag Rapid Test",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18481,7 +18481,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2156": {
-        display: "ROCHE Diagnostics, Elecsys\xAE SARS-CoV-2 Antigen",
+        display: "ROCHE Diagnostics, Elecsys® SARS-CoV-2 Antigen",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
@@ -18529,7 +18529,7 @@ var value_sets_default = {
         validUntil: null
       },
       "2143": {
-        display: "Wuxi Biohermes Bio & Medical Technology Co., Ltd., SARS-CoV-2 Antigen Test Kit\uFF08Lateral Flow Assay\uFF09",
+        display: "Wuxi Biohermes Bio & Medical Technology Co., Ltd., SARS-CoV-2 Antigen Test Kit（Lateral Flow Assay）",
         lang: "en",
         active: true,
         system: "https://covid-19-diagnostics.jrc.ec.europa.eu/devices",
