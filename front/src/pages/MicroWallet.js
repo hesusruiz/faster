@@ -1,4 +1,3 @@
-import { html } from 'uhtml'
 import { log } from '../log'
 
 window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.AbstractPage {
@@ -23,6 +22,7 @@ window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.Abstract
         // The QRCodeInBase64Encoding is the long string representing each QR code
         let params = new URLSearchParams(document.location.search.substring(1));
         let eudcc = params.get("eudcc");
+        let scope = params.get("scope")
     
         // QR code found in URL. Process and display it
         if (eudcc !== null) {
@@ -35,7 +35,33 @@ window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.Abstract
             return;
         
         }
-    
+
+        if (scope !== null) {
+            // Get all parameters
+            var response_type = params.get("response_type")
+            var response_mode = params.get("response_mode")
+            var client_id = params.get("client_id")
+            var redirect_uri = params.get("redirect_uri")
+            var state = params.get("state")
+            var nonce = params.get("nonce")
+
+            let theHtml = html`
+            <div class="w3-container">
+                <p>Welcome to the application</p>
+                <p>scope: ${scope}</p>
+                <p>response_type: ${response_type}</p>
+                <p>response_mode: ${response_mode}</p>
+                <p>client_id: ${client_id}</p>
+                <p>redirect_uri: ${redirect_uri}</p>
+                <p>state: ${state}</p>
+                <p>nonce: ${nonce}</p>
+            </div>
+            `
+            this.render(theHtml)
+            return
+            
+        }
+
         // Check if we have a certificate in local storage
         let qrContent = window.localStorage.getItem("MYEUDCC")
         if (qrContent !== null) {
