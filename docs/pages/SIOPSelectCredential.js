@@ -57,7 +57,7 @@ window.MHR.register("SIOPSelectCredential", class SIOPSelectCredential extends w
                             </div>
 
                             <div class="w3-container w3-padding-16">
-                                <a href=${thehref} class="btn-primary">Send</a>
+                                <a href=${() => sendCredential(thehref)} class="btn-primary">Send</a>
                             </div>
 
                         </div>
@@ -98,4 +98,32 @@ async function getCredentialList(backEndpoint) {
   }
   console.log(cards);
   return cards;
+}
+async function sendCredential(backEndpoint) {
+  try {
+    let response = await fetch(backEndpoint, {
+      mode: "cors"
+    });
+    if (response.ok) {
+      var result = await response.text();
+    } else {
+      if (response.status == 403) {
+        alert.apply("error 403");
+        window.MHR.goHome();
+        return "Error 403";
+      }
+      var error = await response.text();
+      log.error(error);
+      alert(error);
+      window.MHR.goHome();
+      return null;
+    }
+  } catch (error2) {
+    log.error(error2);
+    alert(error2);
+    return null;
+  }
+  console.log(result);
+  window.MHR.goHome();
+  return;
 }
