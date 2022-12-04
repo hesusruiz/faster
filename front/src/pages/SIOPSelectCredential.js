@@ -63,7 +63,7 @@ window.MHR.register("SIOPSelectCredential", class SIOPSelectCredential extends w
                             </div>
 
                             <div class="w3-container w3-padding-16">
-                                <a href=${() => sendCredential(thehref)} class="btn-primary">Send</a>
+                                <a href="#" onclick=${() => sendCredential(thehref)} class="btn-primary">Send</a>
                             </div>
 
                         </div>
