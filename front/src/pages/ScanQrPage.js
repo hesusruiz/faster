@@ -171,6 +171,7 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
 
     }
 
+    // canPlay is called when the video element is ready, so we can start detecting QR codes
     async canPlay() {
         console.log("Video can play, try to detect QR")
         // The video stream is ready, show the 'video' element
@@ -244,6 +245,13 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
             return;
         }
 
+        // Handle a SIOP AuthenticationRequest QR
+        if (qrType === QR_SIOP_URL) {
+            console.log("Going to ", "SIOPSelectCredential", qrData)
+            window.MHR.gotoPage("SIOPSelectCredential", qrData)
+            return true;
+        }
+
         // Handle HCERT data
         if (qrType === QR_HC1) {
             console.log("Going to ", "DisplayHcert")
@@ -251,6 +259,7 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
             return true;
         }
 
+        // Handle a normal QR code with a URL
         if (qrType === QR_URL) {
             console.log("Going to ", "DisplayNormalQR")
             window.MHR.gotoPage("DisplayNormalQR", qrData)
@@ -290,12 +299,12 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
         } else if (qrData.startsWith("multi|w3cvc|")) {
             // A multi-piece JWT
             return QR_MULTI;
-        } else if (qrData.startsWith("siop:")) {
+        } else if (qrData.startsWith("openid:")) {
             // A SIOP Authentication Request, URL-encoded
             return QR_SIOP_URL;
         } else if (qrData.startsWith("https")) {
             // Normal QR with a URL where the real data is located
-            // We require secure connections with https
+            // We require secure connections with https, and do not accept http schemas
             return QR_URL;
         } else {
             return QR_UNKNOWN
@@ -631,7 +640,7 @@ async function ReceiveQRtick() {
 
             // Check if the URL points to a JWT or to the wallet
             if (targetURLRead.startsWith(MYSELF)) {
-                // The URL points to the wallet. There is a param with the credential id
+                // The URL points to the wallet. We should have received a param with the credential id
                 const url = new URL(targetURLRead);
 
                 // First we check for a normal credential

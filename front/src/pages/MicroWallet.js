@@ -1,4 +1,5 @@
 import { log } from '../log'
+import {get, set, entries} from '../components/idbkeyval'
 
 window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.AbstractPage {
 
@@ -62,11 +63,15 @@ window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.Abstract
             
         }
 
+
+
         // Check if we have a certificate in local storage
-        let qrContent = window.localStorage.getItem("MYEUDCC")
-        if (qrContent !== null) {
+        //let qrContent = window.localStorage.getItem("MYEUDCC")
+        let creds = await keys()
+        if (creds.length > 0) {
             // Display the certificate
-            await window.MHR.gotoPage("DisplayMyHcert", qrContent)
+            console.log("Certificates found in storage")
+            await gotoPage("displaymyhcert", qrContent)
             return;        
         }
 

@@ -39,9 +39,10 @@ window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.Abstract
       this.render(theHtml);
       return;
     }
-    let qrContent = window.localStorage.getItem("MYEUDCC");
-    if (qrContent !== null) {
-      await window.MHR.gotoPage("DisplayMyHcert", qrContent);
+    let creds = await keys();
+    if (creds.length > 0) {
+      console.log("Certificates found in storage");
+      await gotoPage("displaymyhcert", qrContent);
       return;
     }
     this.render(html`

@@ -198,7 +198,7 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .color-warning{color: black; background-color: yellow;}
 .color-success{color: black; background-color: #04FF00;}
 
-btn-primary{
+btn-primary, .btn-primary{
     color: var(--fore-color-primary)!important;
     background-color: var(--bg-color-primary)!important;
     border-radius: 8px;

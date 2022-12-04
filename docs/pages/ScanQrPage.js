@@ -167,6 +167,11 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
       setTimeout(() => this.detectCode(), this.detectionInterval);
       return;
     }
+    if (qrType === QR_SIOP_URL) {
+      console.log("Going to ", "SIOPSelectCredential", qrData);
+      window.MHR.gotoPage("SIOPSelectCredential", qrData);
+      return true;
+    }
     if (qrType === QR_HC1) {
       console.log("Going to ", "DisplayHcert");
       window.MHR.gotoPage("DisplayHcert", qrData);
@@ -198,7 +203,7 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
       return QR_HC1;
     } else if (qrData.startsWith("multi|w3cvc|")) {
       return QR_MULTI;
-    } else if (qrData.startsWith("siop:")) {
+    } else if (qrData.startsWith("openid:")) {
       return QR_SIOP_URL;
     } else if (qrData.startsWith("https")) {
       return QR_URL;
