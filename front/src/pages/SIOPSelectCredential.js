@@ -63,7 +63,7 @@ window.MHR.register("SIOPSelectCredential", class SIOPSelectCredential extends w
                             </div>
 
                             <div class="w3-container w3-padding-16">
-                                <a href=${thehref} class="btn-primary">Send</a>
+                                <a href=${() => sendCredential(thehref)} class="btn-primary">Send</a>
                             </div>
 
                         </div>
@@ -117,6 +117,37 @@ async function getCredentialList(backEndpoint) {
 
 }
 
+async function sendCredential(backEndpoint) {
+    try {
+        let response = await fetch(backEndpoint, {
+            mode: "cors",
+        })
+        if (response.ok) {
+            var result = await response.text()
+        } else {
+            if (response.status == 403) {
+                alert.apply("error 403")
+                window.MHR.goHome()
+                return "Error 403"
+            }
+            var error = await response.text()
+            log.error(error)
+            alert(error)
+            window.MHR.goHome()
+            return null
+        }
+    } catch (error) {
+        log.error(error)
+        alert(error)
+        return null
+    }
+
+    console.log(result)
+    window.MHR.goHome()
+    return
+
+}
+
 
 async function logoff() {
     var backEndpoint = "/webauthn/logoff"
@@ -132,59 +163,3 @@ async function logoff() {
 
 }
 
-
-// function Card2(content) {
-    //     return html`
-    // <div class="w3-col">
-    //     <div class="w3-margin-bottom w3-card-4 w3-round-large">
-    
-    //         <div class="w3-cell-row">
-    
-    //             <div class="w3-cell w3-container color-primary w3-round-top-left" style="width:70%">
-    //                 <div>Logo</div>
-    //             </div>
-    
-    //             <div class="w3-cell w3-container">
-    
-    //                 <div class="w3-cell-row">
-    //                     <div class="w3-cell w3-tiny w3-monospace w3-text-grey">
-    //                         <div class="w3-tiny w3-monospace w3-text-grey">FLIGHT</div>
-    //                         <div class="w3-small w3-monospace">IB3205</div>
-    //                     </div>
-    //                     <div class="w3-cell w3-tiny w3-monospace w3-text-grey">
-    //                         <div class="w3-tiny w3-monospace w3-text-grey">DATE</div>
-    //                         <div class="w3-small w3-monospace">28JUN</div>
-    //                     </div>
-    //                 </div>
-    
-    //             </div>
-    
-    //         </div>
-    
-    
-    //         <div class="w3-cell-row">
-    //             <div class="w3-cell w3-center" style="width:40%">
-    //                 <div class="w3-xlarge">SOURCE</div>
-    //             </div>
-    //             <div class="w3-cell w3-center" style="width:10%">
-    //                 <div>Logo</div>
-    //             </div>
-    //             <div class="w3-cell w3-center" style="width:40%">
-    //                 <div>DEST</div>
-    //             </div>
-    //         </div>
-    
-    //         <div class="w3-cell-row">
-    //             <div class="w3-container w3-large">${content.encoded}</div>
-    //         </div>
-    
-    
-    //         <div class="w3-cell-row">
-    //             <div class="w3-container w3-large">&#128712;</div>
-    //         </div>
-    
-    
-    //     </div>
-    // </div>`
-    // }
-    
