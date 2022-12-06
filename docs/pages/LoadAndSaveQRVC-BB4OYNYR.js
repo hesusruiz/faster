@@ -22,13 +22,13 @@ window.MHR.register("LoadAndSaveQRVC", class LoadAndSaveQRVC extends window.MHR.
       gotoPage("ErrorPage", { "title": "No data received", "msg": "The scanned QR does not contain a valid URL" });
       return;
     }
-    this.VC = getVerifiableCredentialLD(qrData);
+    this.VC = await getVerifiableCredentialLD(qrData);
     let theHtml = html`
-        <div class="container">
-            <div class="w3-card-4 w3-center" style="margin-top:100px;">
+        <div class="w3-container">
+            <div class="w3-card-4 w3-center w3-margin-top w3-padding-bottom">
         
                 <header class="w3-container color-primary" style="padding:10px">
-                    <h1>${T("You received a Verifiable Credential")}</h1>
+                    <h4>${T("You received a Verifiable Credential")}</h4>
                 </header>
         
                 <div class="w3-container ptb-16">
@@ -36,7 +36,7 @@ window.MHR.register("LoadAndSaveQRVC", class LoadAndSaveQRVC extends window.MHR.
                     <p>${T("Please click Save to save the certificate.")}</p>
                 </div>
         
-                <div class="ptb-16">       
+                <div class="w3-padding-16">       
                     <btn-primary @click=${() => this.saveVC()}>${T("Save")}</btn-primary>
                 </div>
         
@@ -58,7 +58,7 @@ async function getVerifiableCredentialLD(backEndpoint) {
       mode: "cors"
     });
     if (response.ok) {
-      var vc = await response.json();
+      var vc = await response.text();
     } else {
       if (response.status == 403) {
         alert.apply("error 403");

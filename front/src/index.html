@@ -4,17 +4,14 @@
 <head>
     <script>
         // Set here the default home page for the app, before loading app.js
-        window.homePage = "ScanQrPage"
+        window.homePage = "MicroWallet"
         // Configure the menu items, with entries like:
         //    {page:"NameOfPage", text:"Text in menu item", params: object to pass to page}
         window.menuItems = [
             { page: "MicroWallet", text: "Home", params: "" },
-            { page: "SIOPSelectCredential", text: "Select", params: "" },
             { page: "ScanQrPage", text: "Scan QR", params: "" },
             { page: "SelectLanguage", text: "Language", params: "" },
             { page: "SelectCamera", text: "Camera" },
-            { page: "TermsOfUse", text: "Terms & Conditions" },
-            { page: "PrivacyPolicy", text: "Privacy policy" },
             { page: "LogsPage", text: "Show technical logs" }
         ]
         // The page mapping
@@ -46,6 +43,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="Private Verifiable Credentials" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link href="prism.css" rel="stylesheet">
     <style>
     .loader {
         margin: auto;
@@ -87,6 +85,7 @@
 <footer>
 </footer>
 
+<script src="prism.js"></script>
 </body>
 
 </html>

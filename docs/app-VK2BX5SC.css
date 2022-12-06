@@ -1318,8 +1318,8 @@ a {
 }
 btn-primary,
 .btn-primary {
-  color: var(--fore-color-primary) !important;
-  background-color: var(--bg-color-primary) !important;
+  color: var(--fore-color-primary);
+  background-color: var(--bg-color-primary);
   border-radius: 8px;
   border: none;
   display: inline-block;
@@ -1349,6 +1349,21 @@ btn-primary:disabled {
 btn-primary.w3-disabled:hover,
 btn-primary:disabled:hover {
   box-shadow: none;
+}
+btn-danger,
+.btn-danger {
+  color: var(--fore-color-primary);
+  background-color: red;
+  border-radius: 8px;
+  border: none;
+  display: inline-block;
+  padding: 8px 16px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
 }
 .w3-half-centered {
   margin: auto;

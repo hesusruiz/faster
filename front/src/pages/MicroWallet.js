@@ -1,5 +1,8 @@
 import { log } from '../log'
-import {get, set, entries} from '../components/idbkeyval'
+// import {get, set, entries} from '../components/idbkeyval'
+
+let gotoPage = window.MHR.gotoPage
+let goHome = window.MHR.goHome
 
 window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.AbstractPage {
 
@@ -24,7 +27,7 @@ window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.Abstract
         let params = new URLSearchParams(document.location.search.substring(1));
         let eudcc = params.get("eudcc");
         let scope = params.get("scope")
-    
+
         // QR code found in URL. Process and display it
         if (eudcc !== null) {
             // Decode from Base64url
@@ -34,7 +37,7 @@ window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.Abstract
             // Ask the user to accept the certificate
             await window.MHR.gotoPage("AskUserToStoreQR", eudcc)
             return;
-        
+
         }
 
         if (scope !== null) {
@@ -60,7 +63,7 @@ window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.Abstract
             `
             this.render(theHtml)
             return
-            
+
         }
 
         // Check if we have a certificate in local storage
@@ -68,16 +71,78 @@ window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.Abstract
         if (qrContent) {
             // Display the certificate
             console.log("Certificates found in storage")
-            await gotoPage("DisplayVC", qrContent)
-            return;        
+
+
+            this.render(html`
+                <p></p>
+                <div class="w3-row">
+
+                    <div class="w3-half w3-container w3-margin-bottom">
+                        <div class="w3-card-4">
+                            <div class=" w3-container w3-margin-bottom color-primary">
+                                <h4>Verifiable Credential</h4>
+                            </div>
+
+                            <div class=" w3-container">
+                            <p>
+                                You have a Verifiable Credential.
+                                To display it, click on the "Details" button.
+                                To delete it, click on the "Delete" button.
+                            </p>
+                            </div>
+                
+                            <div class="w3-container w3-padding-16">
+                                <btn-primary @click=${()=> gotoPage("DisplayVC", qrContent)}>${T("Details")}</btn-primary>
+                                <btn-danger @click=${()=> this.deleteVC()}>${T("Delete")}</btn-danger>
+                            </div>
+                
+                        </div>
+                    </div>
+
+                    <div class="w3-half w3-container w3-margin-bottom">
+                        <div class="w3-card-4">
+                            <div class=" w3-container w3-margin-bottom color-primary">
+                                <h4>Authentication</h4>
+                            </div>
+
+                            <div class=" w3-container">
+                            <p>
+                                To authenticate, when instructed to scan a QR by the verifier,
+                                click the "Scan QR" below.
+                            </p>
+                            </div>
+                
+                            <div class="w3-container w3-padding-16">
+                                <btn-primary @click=${()=> gotoPage("ScanQrPage")}>${T("Scan QR")}</btn-primary>
+                            </div>
+                
+                        </div>
+                    </div>
+                
+                </div>
+            `)
+            return
+
         }
 
         // We do not have a QR in the local storage
         this.render(html`
-            <div class="w3-panel bkg-fail">
+            <div class="w3-container">
                 <h2>${T("There is no certificate.")}</h2>
+                <p>You need to obtain one from an Issuer, by scanning the QR in the screen of the Issuer page</p>
+                <btn-primary @click=${()=> gotoPage("ScanQrPage")}>${T("Scan a QR")}</btn-primary>
             </div>
        `)
         return
     }
+
+    async deleteVC() {
+        // Remove the credential from local storage
+        window.localStorage.removeItem("W3C_VC_LD")
+
+        // Reload the application
+        await goHome()
+        return
+    }
+
 })

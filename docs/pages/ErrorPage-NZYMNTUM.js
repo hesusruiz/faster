@@ -1,14 +1,12 @@
-import {
-  html
-} from "../chunks/chunk-65N62L2T.js";
-import "../chunks/chunk-MRZMPRY2.js";
-
 // front/src/pages/ErrorPage.js
+var gotoPage = window.MHR.gotoPage;
+var goHome = window.MHR.goHome;
 window.MHR.register("ErrorPage", class ErrorPage extends window.MHR.AbstractPage {
   constructor(id) {
     super(id);
   }
   enter(pageData) {
+    let html = this.html;
     let title = T("Error");
     if (pageData && pageData.title) {
       title = T(pageData.title);
@@ -21,7 +19,7 @@ window.MHR.register("ErrorPage", class ErrorPage extends window.MHR.AbstractPage
         <div class="w3-container w3-padding-64">
             <div class="w3-card-4 w3-center">
         
-                <header class="w3-container w3-center color-primary">
+                <header class="w3-container w3-center color-error">
                     <h3>${title}</h3>
                 </header>
         

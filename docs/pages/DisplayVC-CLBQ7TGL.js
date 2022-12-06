@@ -18,14 +18,20 @@ window.MHR.register("DisplayVC", class DisplayVC extends window.MHR.AbstractPage
       return;
     }
     let theHtml = html`
-        <div class="container">
+        <div class="w3-container">
+            <p>You have this Verifiable Credential:</p>
 
-            <pre><code class="language-json">
-            ${qrData}
-            </code></pre>
+<pre><code class="language-json">
+${qrData}
+</code></pre>
 
+        </div>
+
+        <div class="w3-container w3-padding-16">       
+            <btn-primary @click=${() => goHome()}>${T("Home")}</btn-primary>
         </div>
         `;
     this.render(theHtml);
+    Prism.highlightAll();
   }
 });

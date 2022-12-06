@@ -1,9 +1,9 @@
 import { log } from '../log'
-import { html } from 'uhtml'
 // import * as db from "../components/db"
 // import * as jwt from "../components/jwt"
 
-// 
+let gotoPage = window.MHR.gotoPage
+let goHome = window.MHR.goHome
 
 window.MHR.register("SIOPSelectCredential", class SIOPSelectCredential extends window.MHR.AbstractPage {
 
@@ -12,6 +12,8 @@ window.MHR.register("SIOPSelectCredential", class SIOPSelectCredential extends w
     }
 
     async enter(qrData) {
+        let html = this.html
+
         console.log("Inside SIOPSelectCredential:", qrData)
         if (qrData == null) {
             qrData = "No data received"
@@ -23,60 +25,48 @@ window.MHR.register("SIOPSelectCredential", class SIOPSelectCredential extends w
         var state = params.get("state")
         console.log("state", state, "redirect_uri", redirect_uri)
 
-        var cards = await getCredentialList()
-        if (cards == null) {
+        // Check if we have a certificate in local storage
+        let qrContent = window.localStorage.getItem("W3C_VC_LD")
+        if (!qrContent) {
             let theHtml = html`
             <div class="w3-panel w3-margin w3-card w3-center w3-round color-error">
-                <p>Error retrieving credentials from the server</p>
+            <p>You do not have a Verifiable Credential.</p>
+            <p>Please go to an Issuer to obtain one.</p>
             </div>
             `;
             this.render(theHtml)
             return             
         }
 
-        if (cards == "Forbidden") {
-            return            
-        }
+        console.log("credential", qrContent)
 
-        var numCards = cards.length
-        var message = "credential"
-        if (numCards > 1) {
-            message = "credentials"
-        }
-
-        console.log(cards[0])
         let theHtml = html`
-            <div class="w3-content w3-margin-top">
-        
-            <div class="w3-row-padding">
-            <h4>You have ${numCards} ${message}</h4>
+            <p></p>
+            <div class="w3-row">
 
-                ${cards.map(
-                    (card) => {
-                        var thehref="https://verifier.mycredential.eu/wallet/api/v1/sendcredential/?id="+
-                    card.id+"&redirect_uri="+redirect_uri+"&state="+state
-                    return html`
-                    <div class="w3-half w3-container w3-margin-bottom">
-                        <div class="w3-card-4">
-                            <div class=" w3-container w3-margin-bottom color-primary">
-                                <h4>${card.id}</h4>
-                            </div>
-
-                            <div class="w3-container w3-padding-16">
-                                <a href="#" onclick=${() => sendCredential(thehref)} class="btn-primary">Send</a>
-                            </div>
-
+                <div class="w3-half w3-container w3-margin-bottom">
+                    <div class="w3-card-4">
+                        <div class=" w3-container w3-margin-bottom color-primary">
+                            <h4>Authorization Request received</h4>
                         </div>
-                    </div>`
 
-                    }
-
-                )}               
+                        <div class=" w3-container">
+                        <p>
+                            The Verifier has requested a Verifiable Credential to perform authentication.
+                        </p>
+                        <p>
+                            If you want to send the credential, click the button "Send Credential".
+                        </p>
+                        </div>
             
+                        <div class="w3-container w3-padding-16">
+                            <btn-primary @click=${()=> sendCredential(redirect_uri, qrContent, state)}>${T("Send Credential")}</btn-primary>
+                        </div>
+            
+                    </div>
+                </div>            
             </div>
-            
-        </div>
-        `;
+        `
 
         this.render(theHtml)
 
@@ -85,42 +75,18 @@ window.MHR.register("SIOPSelectCredential", class SIOPSelectCredential extends w
 })
 
 
-async function getCredentialList(backEndpoint) {
+async function sendCredential(backEndpoint, credential, state) {
 
-    backEndpoint = "https://verifier.mycredential.eu/issuer/api/v1/allcredentials"
-
+    console.log("sending POST to:", backEndpoint + "?state=" + state)
+    let body = {"credential":credential}
     try {
-        let response = await fetch(backEndpoint, {
+        let response = await fetch(backEndpoint + "?state=" + state, {
+            method: "POST",
             mode: "cors",
-        })
-        if (response.ok) {
-            var cards = await response.json()
-        } else {
-            if (response.status == 403) {
-                alert.apply("error 403")
-                window.MHR.goHome()
-                return "Error 403"
-            }
-            var error = await response.text()
-            log.error(error)
-            alert(error)
-            return null
-        }
-    } catch (error) {
-        log.error(error)
-        alert(error)
-        return null
-    }
-
-    console.log(cards)
-    return cards
-
-}
-
-async function sendCredential(backEndpoint) {
-    try {
-        let response = await fetch(backEndpoint, {
-            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
         })
         if (response.ok) {
             var result = await response.text()
@@ -143,23 +109,10 @@ async function sendCredential(backEndpoint) {
     }
 
     console.log(result)
-    window.MHR.goHome()
+    gotoPage("MessagePage", {
+        title: "Credential sent",
+        msg: "The credential has been sent to the Verifier"
+    })
     return
 
 }
-
-
-async function logoff() {
-    var backEndpoint = "/webauthn/logoff"
-
-    try {
-        let response = await fetch(backEndpoint)
-    } catch (error) {
-        log.error(error)
-    }
-
-    location.reload()
-    return
-
-}
-
