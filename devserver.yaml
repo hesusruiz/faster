@@ -30,7 +30,7 @@ staticAssets:
 
 # Set to true if you want entrypoint names to include a hash
 # This includes the pages names
-hashEntrypointNames: false
+hashEntrypointNames: true
 
 subdomainprefix: /faster
 
