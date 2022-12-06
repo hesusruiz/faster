@@ -5,6 +5,7 @@ import "../chunks/chunk-65N62L2T.js";
 import "../chunks/chunk-MRZMPRY2.js";
 
 // front/src/pages/LogsPage.js
+var version = "1.0.1";
 function shortDate(timestamp) {
   let date = new Date(timestamp);
   return `${date.toISOString()}`;
@@ -21,7 +22,7 @@ window.MHR.register("LogsPage", class LogsPage extends window.MHR.AbstractPage {
     }
     let theHtml = html2`
         <div class="w3-container">
-            <h2>${T("Technical logs")}</h2>
+            <h2>${T("Technical logs")} (${version})</h2>
         </div>
 
         <ul class="w3-ul">

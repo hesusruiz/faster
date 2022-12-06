@@ -1,6 +1,8 @@
 import { html } from 'uhtml'
 import { log } from '../log'
 
+let version = "1.0.1"
+
 function shortDate(timestamp) {
     let date = new Date(timestamp)
 //    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()+1}`
@@ -23,7 +25,7 @@ window.MHR.register("LogsPage", class LogsPage extends window.MHR.AbstractPage {
 
         let theHtml = html`
         <div class="w3-container">
-            <h2>${T("Technical logs")}</h2>
+            <h2>${T("Technical logs")} (${version})</h2>
         </div>
 
         <ul class="w3-ul">
