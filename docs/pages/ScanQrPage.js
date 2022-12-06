@@ -21,6 +21,7 @@ var QR_URL = 1;
 var QR_MULTI = 2;
 var QR_HC1 = 3;
 var QR_SIOP_URL = 4;
+var QR_W3C_VC = 5;
 window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPage {
   displayPage;
   detectionInterval = 200;
@@ -178,8 +179,8 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
       return true;
     }
     if (qrType === QR_URL) {
-      console.log("Going to ", "DisplayNormalQR");
-      window.MHR.gotoPage("DisplayNormalQR", qrData);
+      console.log("Going to ", "LoadAndSaveQRVC");
+      window.MHR.gotoPage("LoadAndSaveQRVC", qrData);
       return true;
     }
   }
@@ -205,6 +206,8 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
       return QR_MULTI;
     } else if (qrData.startsWith("openid:")) {
       return QR_SIOP_URL;
+    } else if (qrData.startsWith("VC1:")) {
+      return QR_W3C_VC;
     } else if (qrData.startsWith("https")) {
       return QR_URL;
     } else {

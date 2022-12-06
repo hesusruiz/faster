@@ -28,7 +28,7 @@ import (
 )
 
 var (
-	port      = flag.String("port", ":3000", "Port to listen on")
+	port      = flag.String("port", ":3500", "Port to listen on")
 	autobuild = flag.Bool("auto", true, "Perform build on every request to the root path")
 )
 
@@ -64,7 +64,7 @@ func main() {
 	var result api.BuildResult
 
 	flag.Usage = func() {
-		fmt.Printf("Usage of faster\n")
+		fmt.Printf("Usage of faster (v0.3)\n")
 		fmt.Println("  faster build\tBuild the application")
 		fmt.Println("  faster serve\tStart a development server that builds automatically when reloading")
 		fmt.Println()
@@ -252,9 +252,18 @@ func postprocess(r api.BuildResult, cfg *yaml.YAML) error {
 	}
 
 	// Get a list of the pages of the application, to generate the routing page map
-	pageNames := pageEntryPointsAsMap(cfg)
+	// This is the list of file path names in the pagesdir directory, relative to sourcedir
+	pageSourceFileNames := pageEntryPointsAsMap(cfg)
 
+	// pageNamesMapping will be a mapping between the page name (the file name without the path and extension),
+	// and the full file path for the corresponding target file with the JavaScript code for the page.
+	// This will be used for dynamic loading of the code when routing to a given page name. The router will
+	// dynamically load the JavascriptFile before giving control to the page entry point
 	pageNamesMapping := map[string]string{}
+
+	// rootEntryPointMap is a mapping between the target name of the entry point (possibly including its hash in the name),
+	// and the CSS file bundle that is associated to that entry point (possibly because some CSS was imported by the entrypoint
+	// or its dependencies).
 	rootEntryPointMap := map[string]string{}
 
 	// Iterate over all output files in the metadata file
@@ -281,18 +290,18 @@ func postprocess(r api.BuildResult, cfg *yaml.YAML) error {
 
 		}
 
-		// If this entry corresponds to a page
-		if pageNames[outEntryPoint] {
+		// If this entry corresponds to a file in the source page directory
+		if pageSourceFileNames[outEntryPoint] {
 
-			// Get the page name (the name of the file without path or extension)
-			name := strings.TrimSuffix(filepath.Base(outEntryPoint), filepath.Ext(filepath.Base(outEntryPoint)))
+			// Get the page pageName (the pageName of the file without path or extension)
+			pageName := strings.TrimSuffix(filepath.Base(outEntryPoint), filepath.Ext(filepath.Base(outEntryPoint)))
 
-			// Get the relative path of the file in the output
-			value := filepath.Join(targetFullDir, outFileBaseName)
+			// Get the path of the file in the output, relative to the target directory for serving the file
+			targetPageFilePath := filepath.Join(targetFullDir, outFileBaseName)
 
 			// Add an entry in the page mapping
-			pageNamesMapping[name] = value
-			fmt.Println("page:", name, "module:", value)
+			pageNamesMapping[pageName] = targetPageFilePath
+			fmt.Println("page:", pageName, "module:", targetPageFilePath)
 
 		}
 	}
@@ -334,38 +343,6 @@ func postprocess(r api.BuildResult, cfg *yaml.YAML) error {
 
 }
 
-func processResult(r api.BuildResult, cfg *yaml.YAML) error {
-	meta, err := yaml.ParseJson(r.Metafile)
-	if err != nil {
-		return err
-	}
-
-	outputs := meta.Map("outputs")
-	if err != nil {
-		return err
-	}
-
-	// The JavaScript entrypoints
-	sourceDir := cfg.String("sourcedir", defaultsourcedir)
-	entryPoints := cfg.ListString("entryPoints")
-	for i := range entryPoints {
-		entryPoints[i] = filepath.Join(sourceDir, entryPoints[i])
-	}
-
-	for outFile, metaData := range outputs {
-		metaEntry := yaml.New(metaData)
-		for _, sourceEntryPoint := range entryPoints {
-			if sourceEntryPoint == metaEntry.String("entryPoint") {
-				fmt.Println(metaEntry.String("entryPoint"), outFile, sourceEntryPoint, metaEntry.String("cssBundle"))
-			}
-
-		}
-
-	}
-
-	return nil
-}
-
 func buildDeps(cfg *yaml.YAML) api.BuildResult {
 	// processTemplates(cfg)
 
@@ -380,8 +357,8 @@ func performExperiments(cfg *yaml.YAML) api.BuildResult {
 	return api.BuildResult{}
 }
 
-// pageEntryPoints returns an array with all pages in the application, which will be entrypoints
-// for the building process.
+// pageEntryPointsAsMap returns a map with all source page file names (path relative to sourcedir) in the application,
+// which will be entrypoints for the building process.
 func pageEntryPointsAsMap(cfg *yaml.YAML) map[string]bool {
 
 	// The directory where the pages are located
@@ -393,7 +370,7 @@ func pageEntryPointsAsMap(cfg *yaml.YAML) map[string]bool {
 		log.Fatal(err)
 	}
 
-	// Create the list of pages with the full path
+	// Create the list of pages with the full path (relative to the sourcedir directory)
 	pageMap := map[string]bool{}
 	for _, file := range files {
 		pageMap[filepath.Join(pageDir, file.Name())] = true
@@ -484,22 +461,6 @@ func copyStaticAssets(cfg *yaml.YAML) {
 
 }
 
-func copyFile(origin string, destination string) {
-
-	fmt.Printf("Copying %v to %v\n", origin, destination)
-	//Read all the contents of the  original file
-	bytesRead, err := os.ReadFile(origin)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	//Copy all the contents to the desitination file
-	err = os.WriteFile(destination, bytesRead, 0755)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
 func readConfiguration() *yaml.YAML {
 	var cfg *yaml.YAML
 	var err error
@@ -511,17 +472,6 @@ func readConfiguration() *yaml.YAML {
 	}
 	return cfg
 }
-
-// func printDir() {
-// 	files, err := os.ReadDir("src/pages")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	for _, file := range files {
-// 		fmt.Println(file.Name())
-// 	}
-// }
 
 // pageEntryPoints returns an array with all pages in the application, which will be entrypoints
 // for the building process.
@@ -543,53 +493,6 @@ func pageEntryPoints(cfg *yaml.YAML) []string {
 	}
 
 	return pageList
-}
-
-func generatePreloadImports(cfg *yaml.YAML) []string {
-
-	// The directory where the pages are located
-	targetPageDir := filepath.Join(cfg.String("targetdir", defaulttargetdir), cfg.String("pagedir", defaultpagedir))
-
-	files, err := os.ReadDir(targetPageDir)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	targetFullDir := cfg.String("pagedir", defaultpagedir)
-
-	pageMap := make([]string, len(files))
-	for i, file := range files {
-		fullFilePath := filepath.Join(targetFullDir, file.Name())
-		fullFilePath = filepath.Clean(fullFilePath)
-		value := fmt.Sprintf("import('%v')", fullFilePath)
-		pageMap[i] = value
-	}
-
-	return pageMap
-}
-
-func generatePageMap(cfg *yaml.YAML) map[string]string {
-
-	// The directory where the pages are located after building
-	targetPageDir := filepath.Join(cfg.String("targetdir", defaulttargetdir), cfg.String("pagedir", defaultpagedir))
-
-	// Get the list of all pages (each page is one file)
-	files, err := os.ReadDir(targetPageDir)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	targetFullDir := cfg.String("pagedir", defaultpagedir)
-
-	pageMap := make(map[string]string, len(files))
-	for _, file := range files {
-		name := strings.TrimSuffix(filepath.Base(file.Name()), filepath.Ext(filepath.Base(file.Name())))
-		value := filepath.Join(targetFullDir, file.Name())
-		value = filepath.Clean(value)
-		pageMap[name] = value
-	}
-
-	return pageMap
 }
 
 func printJSON(val any) {
@@ -672,18 +575,17 @@ func DevServer(cfg *yaml.YAML) {
 		fmt.Println("Forwarding", proxy.String("route"), "to", proxy.String("target"))
 	}
 
-	// Setup static files
-	//server.Static("/", cfg.String("targetdir"))
-
 	// Serve locally from disk all requests not matching the routes above
 	server.Get("/*", func(c *fiber.Ctx) error {
 
-		// The requested path
+		// Get the name of the requested file (or path)
 		fileName := c.Path()
 
 		// If the request is for the root, perform a standard build if configured
 		if fileName == "/" {
+			// Set the filename to index.html
 			fileName = "/index.html"
+			// Build if configured
 			if *autobuild || cfg.Bool("devserver.autobuild", defaultdevserver_autobuild) {
 				fmt.Println("<<<<<<<<<<<< Building >>>>>>>>>>>>>")
 				build(cfg)
@@ -691,13 +593,22 @@ func DevServer(cfg *yaml.YAML) {
 
 		}
 
+		// Get the full path name for the directory serving the files
 		filePath := filepath.Join(cfg.String("targetdir"), fileName)
+
+		// Read the file in memory
 		buf, err := os.ReadFile(filePath)
 		if err != nil {
 			return err
 		}
 
+		// Disable the cache in the browser, so it is always the last version
+		c.Set("Cache-Control", "no-store")
+
+		// Set the MIME-type in the response acceording to the file extension
 		c.Type(filepath.Ext(fileName))
+
+		// Send the file to the browser
 		fmt.Println("Sending:", filePath)
 		return c.Send(buf)
 

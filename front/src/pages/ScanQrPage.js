@@ -18,6 +18,7 @@ const QR_URL = 1
 const QR_MULTI = 2
 const QR_HC1 = 3
 const QR_SIOP_URL = 4
+const QR_W3C_VC = 5
 
 
 window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPage {
@@ -53,6 +54,7 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
 
     }
 
+    // Scan a QR and then route to the displayPage to display the QR
     async enter(displayPage) {
 
         // displayPage is the page that should display the scanned QR
@@ -60,6 +62,7 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
         if (!displayPage) {
             displayPage = "DisplayHcert"
         }
+        // Set as a local class instance variable
         this.displayPage = displayPage
 
         // If debugging, just try to decode the test QR
@@ -68,6 +71,7 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
             return
         }
 
+        // Initialize the non-native QR reader if needed
         if (!this.nativeBarcodeDetector) {
             let zxing = await this.zxingPromise
             this.zxingReader = new zxing.BrowserQRCodeReader()
@@ -108,7 +112,7 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
 
         let stream;
         try {
-            // Request a stream which forces the system to ask the user
+            // Request a stream which forces the system to ask permission to the user
             stream = await navigator.mediaDevices.getUserMedia(constraints);
             let videoTracks = stream.getVideoTracks()
             for (let i = 0; i < videoTracks.length; i++) {
@@ -261,8 +265,8 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
 
         // Handle a normal QR code with a URL
         if (qrType === QR_URL) {
-            console.log("Going to ", "DisplayNormalQR")
-            window.MHR.gotoPage("DisplayNormalQR", qrData)
+            console.log("Going to ", "LoadAndSaveQRVC")
+            window.MHR.gotoPage("LoadAndSaveQRVC", qrData)
             return true;
         }
 
@@ -302,6 +306,9 @@ window.MHR.register("ScanQrPage", class ScanQrPage extends window.MHR.AbstractPa
         } else if (qrData.startsWith("openid:")) {
             // A SIOP Authentication Request, URL-encoded
             return QR_SIOP_URL;
+        } else if (qrData.startsWith("VC1:")) {
+            // A Verifiable Credential in raw format
+            return QR_W3C_VC;
         } else if (qrData.startsWith("https")) {
             // Normal QR with a URL where the real data is located
             // We require secure connections with https, and do not accept http schemas
