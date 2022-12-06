@@ -3,7 +3,7 @@ import { log } from '../log'
 let gotoPage = window.MHR.gotoPage
 let goHome = window.MHR.goHome
 
-window.MHR.register("LoadAndSaveQRVC", class LoadAndSaveQRVC extends window.MHR.AbstractPage {
+window.MHR.register("DisplayVC", class DisplayVC extends window.MHR.AbstractPage {
 
     constructor(id) {
         super(id)

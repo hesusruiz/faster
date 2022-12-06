@@ -6,7 +6,7 @@ import "../chunks/chunk-MRZMPRY2.js";
 // front/src/pages/DisplayVC.js
 var gotoPage = window.MHR.gotoPage;
 var goHome = window.MHR.goHome;
-window.MHR.register("LoadAndSaveQRVC", class LoadAndSaveQRVC extends window.MHR.AbstractPage {
+window.MHR.register("DisplayVC", class DisplayVC extends window.MHR.AbstractPage {
   constructor(id) {
     super(id);
   }
