@@ -63,21 +63,18 @@ window.MHR.register("MicroWallet", class MicroWallet extends window.MHR.Abstract
             
         }
 
-
-
         // Check if we have a certificate in local storage
-        //let qrContent = window.localStorage.getItem("MYEUDCC")
-        let creds = await keys()
-        if (creds.length > 0) {
+        let qrContent = window.localStorage.getItem("W3C_VC_LD")
+        if (qrContent) {
             // Display the certificate
             console.log("Certificates found in storage")
-            await gotoPage("displaymyhcert", qrContent)
+            await gotoPage("DisplayVC", qrContent)
             return;        
         }
 
         // We do not have a QR in the local storage
         this.render(html`
-            <div id="hcertFailed" class="w3-panel bkg-fail">
+            <div class="w3-panel bkg-fail">
                 <h2>${T("There is no certificate.")}</h2>
             </div>
        `)

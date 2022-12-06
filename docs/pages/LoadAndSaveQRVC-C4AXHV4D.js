@@ -47,7 +47,8 @@ window.MHR.register("LoadAndSaveQRVC", class LoadAndSaveQRVC extends window.MHR.
   }
   saveVC() {
     window.localStorage.setItem("W3C_VC_LD", this.VC);
-    window.location.replace(document.location.origin);
+    gotoPage("DisplayVC", this.VC);
+    return;
   }
 });
 async function getVerifiableCredentialLD(backEndpoint) {
