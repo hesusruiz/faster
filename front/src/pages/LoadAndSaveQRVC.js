@@ -61,6 +61,7 @@ window.MHR.register("LoadAndSaveQRVC", class LoadAndSaveQRVC extends window.MHR.
 
     saveVC() {
         // Store it in local storage
+        log.log(this.VC)
         window.localStorage.setItem("W3C_VC_LD", this.VC)
 
         // Reload the application with a clean URL

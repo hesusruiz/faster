@@ -46,6 +46,7 @@ window.MHR.register("LoadAndSaveQRVC", class LoadAndSaveQRVC extends window.MHR.
     this.render(theHtml);
   }
   saveVC() {
+    log.log(this.VC);
     window.localStorage.setItem("W3C_VC_LD", this.VC);
     gotoPage("DisplayVC", this.VC);
     return;
