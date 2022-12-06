@@ -29,14 +29,11 @@ window.MHR.register("LoadAndSaveQRVC", class LoadAndSaveQRVC extends window.MHR.
 
         // We have received a URL that was scanned as a QR code.
         // First we should do a GET to the URL to retrieve the VC.
-        this.VC = getVerifiableCredentialLD("dhdh")
+        this.VC = getVerifiableCredentialLD(qrData)
 
         // The VC should be in JSON-LD format (for the moment is the only format we support)
 
         // As the user if we should store the VC
-
-
-        this.QRCertificate = qrData
 
         let theHtml = html`
         <div class="container">
