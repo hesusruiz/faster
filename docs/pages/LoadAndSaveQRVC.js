@@ -22,8 +22,7 @@ window.MHR.register("LoadAndSaveQRVC", class LoadAndSaveQRVC extends window.MHR.
       gotoPage("ErrorPage", { "title": "No data received", "msg": "The scanned QR does not contain a valid URL" });
       return;
     }
-    this.VC = getVerifiableCredentialLD("dhdh");
-    this.QRCertificate = qrData;
+    this.VC = getVerifiableCredentialLD(qrData);
     let theHtml = html`
         <div class="container">
             <div class="w3-card-4 w3-center" style="margin-top:100px;">
