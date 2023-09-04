@@ -13,6 +13,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/otiai10/copy v1.9.0
 	github.com/rs/zerolog v1.28.0
+	github.com/valyala/fasttemplate v1.2.2
 )
 
 require (

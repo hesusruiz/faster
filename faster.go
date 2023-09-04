@@ -5,11 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 	"text/template"
 
 	"github.com/hesusruiz/vcutils/yaml"
+	"github.com/valyala/fasttemplate"
 
 	"errors"
 
@@ -312,8 +314,10 @@ func postprocess(r api.BuildResult, cfg *yaml.YAML) error {
 
 	pageNamesMappingJSON, _ := json.MarshalIndent(pageNamesMapping, "", "  ")
 
+	indexFilePath := path.Join(cfg.String("targetdir"), "index.html")
+
 	// Read the contents of the output HTML file
-	bytesOut, err := os.ReadFile("docs/index.html")
+	bytesOut, err := os.ReadFile(indexFilePath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -321,20 +325,28 @@ func postprocess(r api.BuildResult, cfg *yaml.YAML) error {
 	for outFile, cssBundleBasename := range rootEntryPointMap {
 
 		// Get the base name for the outfile of the entrypoint
-		outFileBaseName := filepath.Base(outFile)
+		outFileBaseName := path.Join(cfg.String("subdomainprefix"), filepath.Base(outFile))
+		fullCSS := path.Join(cfg.String("subdomainprefix"), cssBundleBasename)
+		fmt.Println("Replace loop", outFileBaseName)
 
 		// Replace the entrypoint name for JavaScript
 		bytesOut = bytes.Replace(bytesOut, []byte("PUT_APP_JS_NAME_HERE"), []byte(outFileBaseName), 1)
 
 		// Replace the entrypoint name for CSS
-		bytesOut = bytes.Replace(bytesOut, []byte("PUT_APP_CSS_NAME_HERE"), []byte(cssBundleBasename), 1)
+		bytesOut = bytes.Replace(bytesOut, []byte("PUT_APP_CSS_NAME_HERE"), []byte(fullCSS), 1)
 
 		bytesOut = bytes.Replace(bytesOut, []byte("PUT_PAGEMAP_HERE"), pageNamesMappingJSON, 1)
 
 	}
 
+	template := string(bytesOut)
+	t := fasttemplate.New(template, "{{", "}}")
+	str := t.ExecuteString(map[string]interface{}{
+		"subdomainprefix": cfg.String("subdomainprefix"),
+	})
+
 	// Overwrite file with modified contents
-	err = os.WriteFile("docs/index.html", bytesOut, 0755)
+	err = os.WriteFile(indexFilePath, []byte(str), 0755)
 	if err != nil {
 		log.Fatal(err)
 	}
